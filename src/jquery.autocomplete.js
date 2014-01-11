@@ -80,6 +80,7 @@
                 lookupFilter: function (suggestion, originalQuery, queryLowerCase) {
                     return suggestion.value.toLowerCase().indexOf(queryLowerCase) !== -1;
                 },
+                customLookup: false,
                 paramName: 'query',
                 transformResult: function (response) {
                     return typeof response === 'string' ? $.parseJSON(response) : response;
@@ -456,11 +457,18 @@
                 limit = parseInt(options.lookupLimit, 10),
                 data;
 
-            data = {
-                suggestions: $.grep(options.lookup, function (suggestion) {
-                    return filter(suggestion, query, queryLowerCase);
-                })
-            };
+            if (options.customLookup) {
+                data = {
+                    suggestions: options.customLookup(query, options.lookup)
+                };
+            }
+            else {
+                data = {
+                    suggestions: $.grep(options.lookup, function (suggestion) {
+                        return filter(suggestion, query, queryLowerCase);
+                    })
+                };
+            }
 
             if (limit && data.suggestions.length > limit) {
                 data.suggestions = data.suggestions.slice(0, limit);

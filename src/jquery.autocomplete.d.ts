@@ -3,6 +3,7 @@ interface JQueryAutocompleteOptions {
     serviceUrl?: string;
     lookup?: AutocompleteSuggestion[];
     lookupFilter? (suggestion: AutocompleteSuggestion, query: string, queryLowercase: string): any;
+    customLookup? (query: string, suggestions: AutocompleteSuggestion[]): AutocompleteSuggestion[];
     onSelect? (suggestion: AutocompleteSuggestion): void;
     minChars: number;
     maxHeight: number;
